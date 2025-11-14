@@ -1,0 +1,194 @@
+# Implementation Plan - Expense Tracking Dashboard
+
+- [x] 1. Set up TypeScript types and interfaces
+  - Create `front-end/src/types/dashboard.ts` with all TypeScript interfaces for Project, DashboardMetrics, Transaction, FilterCriteria, and PaginatedResponse
+  - Define TransactionStatus type union
+  - Export all types for use across components
+  - _Requirements: All requirements (foundation for type safety)_
+
+- [x] 2. Implement dashboard API service
+  - [x] 2.1 Create `front-end/src/services/dashboardService.ts` with API methods
+    - Implement `getProjects()` method to fetch project list
+    - Implement `getDashboardMetrics(projectId)` method to fetch budget metrics
+    - Implement `getTransactions(params)` method with query parameter support
+    - Implement `getCategories()` method to fetch category list
+    - Add error handling and response transformation
+    - _Requirements: 2.1, 3.1, 4.1, 5.1, 6.1, 7.1_
+
+- [x] 3. Create utility functions
+  - [x] 3.1 Create `front-end/src/utils/formatters.ts` with formatting functions
+    - Implement `formatCurrency(value)` for Brazilian Real format (R$ X.XXX,XX)
+    - Implement `formatDateTime(isoDate)` for DD/MM/YYYY - HH:MM:SS format
+    - Add JSDoc comments for each function
+    - _Requirements: 1.5, 7.3, 7.4_
+
+- [x] 4. Implement useDashboard composable
+  - [x] 4.1 Create `front-end/src/composables/useDashboard.ts` with state management
+    - Define reactive state for projects, selectedProject, dashboardMetrics, transactions, categories, filters, pagination, loading, and error
+    - Implement `fetchProjects()` method
+    - Implement `fetchDashboardMetrics(projectId)` method
+    - Implement `fetchTransactions(filters)` method with pagination support
+    - Implement `applyFilters(newFilters)` method
+    - Implement `changePage(page)` method
+    - Implement `resetFilters()` method
+    - Add computed property for paginated transactions
+    - Handle loading and error states
+    - _Requirements: 2.4, 3.4, 4.4, 5.3, 6.3, 10.1, 10.2, 10.3, 10.4, 11.3_
+
+- [x] 5. Create StatusBadge component
+  - [x] 5.1 Create `front-end/src/components/common/StatusBadge.vue`
+    - Define props interface for status
+    - Implement status-to-color mapping (blue, red, green, orange)
+    - Add dot icon for each status
+    - Apply zinc theme styling with semi-transparent backgrounds
+    - Add ARIA label for accessibility
+    - _Requirements: 5.4, 8.1, 8.2, 8.3, 8.4, 8.5, 12.2, 14.2, 14.3, 14.4, 14.5_
+
+- [x] 6. Create ThermometerChart component
+  - [x] 6.1 Create `front-end/src/components/dashboard/ThermometerChart.vue`
+    - Define props interface for dashboard metrics data
+    - Implement three metric cards (Consumido, Restante, Rendimento) with cyan labels
+    - Create horizontal thermometer bar with gradient fill
+    - Calculate consumption percentage from consumed/total
+    - Format all monetary values using formatCurrency utility
+    - Apply zinc theme styling (bg-zinc-800 cards, zinc-700 borders)
+    - Implement responsive layout (stacked on mobile, horizontal on desktop)
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 13.4, 14.2, 14.3, 14.4, 14.5_
+
+- [x] 7. Create DashboardFilters component
+  - [x] 7.1 Create `front-end/src/components/dashboard/DashboardFilters.vue`
+    - Define props interface for projects and categories
+    - Define emits interface for filter event
+    - Create project dropdown with label "Selecione seu projeto"
+    - Create search input with placeholder "Pesquisar" and search icon
+    - Create date picker input with label "Data"
+    - Create status dropdown with label "Status" and options (Em Validação, Pendente, Validado, Revisar)
+    - Create category dropdown with label "Categoria"
+    - Create "Buscar" button in cyan color (bg-cyan-500)
+    - Apply zinc theme styling to all inputs (bg-zinc-800, border-zinc-700)
+    - Implement responsive grid layout (1 column mobile, 2-3 columns tablet/desktop)
+    - Add ARIA labels to all inputs
+    - Emit filter event only when "Buscar" button is clicked
+    - _Requirements: 2.1, 2.2, 2.3, 2.5, 3.1, 3.2, 3.5, 4.1, 4.2, 4.5, 5.1, 5.2, 5.5, 6.1, 6.2, 6.5, 11.1, 11.2, 11.4, 11.5, 12.1, 13.2, 14.2, 14.3, 14.4, 14.5_
+
+- [x] 8. Create TransactionTable component
+  - [x] 8.1 Create `front-end/src/components/dashboard/TransactionTable.vue`
+    - Define props interface for transactions and pagination data
+    - Define emits interface for page-change event
+    - Create table with columns: Pagamento, Valor, Data, CNPJ, Status
+    - Display payment methods in Pagamento column
+    - Format amounts using formatCurrency in Valor column
+    - Format dates using formatDateTime in Data column
+    - Display CNPJ or company names in CNPJ column
+    - Use StatusBadge component in Status column
+    - Apply hover effect to rows (bg-zinc-800/50 with smooth transition)
+    - Apply zinc theme styling (bg-zinc-800 table, zinc-700 borders)
+    - Make table horizontally scrollable on mobile
+    - Implement sticky header on scroll
+    - Create pagination controls at bottom
+    - Display "Exibindo X resultados de Y" text
+    - Add previous and next page buttons
+    - Show current page and total pages
+    - Apply zinc theme to pagination controls
+    - Add ARIA labels for pagination navigation
+    - Emit page-change event when pagination buttons clicked
+    - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 9.1, 9.2, 9.3, 9.4, 9.5, 10.1, 10.2, 10.3, 10.4, 10.5, 12.1, 13.3, 14.2, 14.3, 14.4, 14.5_
+
+- [x] 9. Create main ExpenseTrackingDashboard container component
+  - [x] 9.1 Create `front-end/src/views/ExpenseTrackingDashboard.vue`
+    - Use useDashboard composable for state and methods
+    - Implement onMounted hook to fetch initial projects data
+    - Create layout structure with max-width container and spacing
+    - Add ThermometerChart component with dashboardMetrics prop
+    - Add DashboardFilters component with projects and categories props
+    - Handle filter event from DashboardFilters to apply filters
+    - Add TransactionTable component with transactions and pagination props
+    - Handle page-change event from TransactionTable
+    - Implement loading state display
+    - Implement error state display with retry button
+    - Apply zinc-900 background color
+    - Add responsive padding (p-6)
+    - _Requirements: 2.4, 3.3, 4.3, 5.3, 6.3, 11.2, 11.3, 13.1, 14.1_
+
+- [x] 10. Add keyboard navigation and focus management
+  - [x] 10.1 Enhance components with keyboard accessibility
+    - Add tab index management for logical tab order
+    - Implement Escape key handler to close dropdowns
+    - Implement Enter key handler to submit filters
+    - Add visible focus indicators to all focusable elements
+    - Ensure focus returns to trigger element after closing dropdowns
+    - _Requirements: 12.3, 12.5_
+
+- [x] 11. Add screen reader support
+  - [x] 11.1 Implement ARIA live regions for dynamic content
+    - Add aria-live region for filter application announcements
+    - Add aria-live region for page change announcements
+    - Add aria-live region for loading state announcements
+    - Add aria-live region for error announcements
+    - Ensure all announcements are in Portuguese
+    - _Requirements: 12.4_
+
+- [x] 12. Verify color contrast compliance
+  - [x] 12.1 Test and adjust colors for WCAG AA compliance
+    - Verify text-cyan-400 on zinc backgrounds meets 4.5:1 ratio
+    - Verify status badge colors meet contrast requirements
+    - Verify white/zinc-100 text on zinc-900 background meets requirements
+    - Verify zinc-400 secondary text meets 4.5:1 ratio
+    - Adjust colors if needed to meet WCAG 2.0 Level AA standards
+    - _Requirements: 12.2_
+
+- [x] 13. Add route configuration
+  - [x] 13.1 Update Vue Router with dashboard route
+    - Add route entry for `/dashboard/expenses` path
+    - Configure route to load ExpenseTrackingDashboard component
+    - Add route meta for page title and authentication requirements
+    - _Requirements: All requirements (enables navigation to dashboard)_
+
+- [ ] 14. Create back-end API endpoints
+  - [ ] 14.1 Create DashboardController in API layer
+    - Create `src/ProjectBudgetManagement.Api/Controllers/DashboardController.cs`
+    - Implement GET `/api/projects` endpoint returning project list
+    - Implement GET `/api/dashboard/metrics/{projectId}` endpoint returning DashboardMetricsDto
+    - Implement GET `/api/dashboard/transactions` endpoint with query parameters for filtering
+    - Implement GET `/api/dashboard/categories` endpoint returning category list
+    - Add OpenAPI/Swagger documentation for all endpoints
+    - Add proper HTTP status codes and error responses
+    - Ensure response time < 100ms
+    - _Requirements: 2.1, 2.2, 3.1, 4.1, 5.1, 5.2, 6.1, 6.2, 7.1, 10.1_
+
+  - [ ] 14.2 Create DashboardService in Application layer
+    - Create `src/ProjectBudgetManagement.Application/Services/DashboardService.cs`
+    - Implement GetProjectsAsync method using IProjectRepository
+    - Implement GetDashboardMetricsAsync method calculating consumed, remaining, and yield amounts
+    - Implement GetTransactionsAsync method with filtering and pagination logic
+    - Implement GetCategoriesAsync method returning distinct categories
+    - Add business logic for budget calculations
+    - Handle edge cases (no transactions, invalid project ID)
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.4, 3.4, 4.4, 5.3, 6.3, 7.1, 10.4_
+
+  - [ ] 14.3 Create DTOs for API responses
+    - Create `src/ProjectBudgetManagement.Api/Models/DashboardMetricsDto.cs`
+    - Create `src/ProjectBudgetManagement.Api/Models/TransactionDto.cs`
+    - Create `src/ProjectBudgetManagement.Api/Models/TransactionQueryParams.cs`
+    - Create `src/ProjectBudgetManagement.Api/Models/PaginatedResponseDto.cs`
+    - Add data annotations for validation
+    - _Requirements: All requirements (data contracts)_
+
+  - [ ] 14.4 Register services in dependency injection
+    - Update `src/ProjectBudgetManagement.Api/Program.cs` to register DashboardService
+    - Configure CORS to allow front-end origin
+    - Add any required middleware
+    - _Requirements: All requirements (enables API functionality)_
+
+- [ ] 15. Integration and end-to-end verification
+  - [ ]* 15.1 Connect front-end to back-end API
+    - Update dashboardService.ts with correct API base URL
+    - Test project selection workflow
+    - Test filter application with all filter combinations
+    - Test pagination navigation
+    - Verify thermometer chart updates correctly
+    - Verify transaction table displays correct data
+    - Test error handling scenarios
+    - Verify loading states display correctly
+    - Test responsive behavior on different screen sizes
+    - _Requirements: All requirements (integration verification)_

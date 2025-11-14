@@ -1,0 +1,71 @@
+{
+  "budgetSummary": {
+    "consumed": 283212.30,
+    "remaining": 105887.70,
+    "yield": 4752.25,
+    "total": 389100.00,
+    "consumedPercentage": 72.8
+  },
+  "projects": [
+    {
+      "id": "1",
+      "name": "Conecta Fapes"
+    },
+    {
+      "id": "2",
+      "name": "Sistema de Gestão Acadêmica"
+    },
+    {
+      "id": "3",
+      "name": "Portal de Transparência"
+    },
+    {
+      "id": "4",
+      "name": "Plataforma de Inovação"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Equipamentos"
+    },
+    {
+      "id": "2",
+      "name": "Serviços"
+    },
+    {
+      "id": "3",
+      "name": "Material de Consumo"
+    },
+    {
+      "id": "4",
+      "name": "Passagens e Diárias"
+    },
+    {
+      "id": "5",
+      "name": "Bolsas"
+    }
+  ],
+  "statuses": [
+    {
+      "id": "em-validacao",
+      "name": "Em Validação",
+      "color": "blue"
+    },
+    {
+      "id": "pendente",
+      "name": "Pendente",
+      "color": "red"
+    },
+    {
+      "id": "validado",
+      "name": "Validado",
+      "color": "green"
+    },
+    {
+      "id": "revisar",
+      "name": "Revisar",
+      "color": "orange"
+    }
+  ]
+}
