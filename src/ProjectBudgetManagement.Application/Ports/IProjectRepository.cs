@@ -58,4 +58,18 @@ public interface IProjectRepository
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>Number of entities written to the database.</returns>
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Checks if a bank account with the specified combination already exists.
+    /// </summary>
+    /// <param name="accountNumber">The account number.</param>
+    /// <param name="bankName">The bank name.</param>
+    /// <param name="branchNumber">The branch number.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>True if the bank account exists, false otherwise.</returns>
+    Task<bool> BankAccountExistsAsync(
+        string accountNumber,
+        string bankName,
+        string branchNumber,
+        CancellationToken cancellationToken = default);
 }

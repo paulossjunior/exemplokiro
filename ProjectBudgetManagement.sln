@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectBudgetManagement.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectBudgetManagement.Infrastructure", "src\ProjectBudgetManagement.Infrastructure\ProjectBudgetManagement.Infrastructure.csproj", "{2CC39ECC-498F-461C-AECE-78F3BC158E0E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3871969A-2C72-4828-8BAC-A3887B8C10F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectBudgetManagement.IntegrationTests", "tests\ProjectBudgetManagement.IntegrationTests\ProjectBudgetManagement.IntegrationTests.csproj", "{0582970E-3909-46B8-8A88-E3597193E1A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,11 +42,16 @@ Global
 		{2CC39ECC-498F-461C-AECE-78F3BC158E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CC39ECC-498F-461C-AECE-78F3BC158E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CC39ECC-498F-461C-AECE-78F3BC158E0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0582970E-3909-46B8-8A88-E3597193E1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0582970E-3909-46B8-8A88-E3597193E1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0582970E-3909-46B8-8A88-E3597193E1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0582970E-3909-46B8-8A88-E3597193E1A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A821736F-214D-40EB-B060-7126894A6AFA} = {A3545B59-0107-4210-B501-E239C1888289}
 		{3DB78477-031F-45A4-80E2-98DEE7583272} = {A3545B59-0107-4210-B501-E239C1888289}
 		{15A792CE-F0E8-4891-A947-6FDA700EABD6} = {A3545B59-0107-4210-B501-E239C1888289}
 		{2CC39ECC-498F-461C-AECE-78F3BC158E0E} = {A3545B59-0107-4210-B501-E239C1888289}
+		{0582970E-3909-46B8-8A88-E3597193E1A0} = {3871969A-2C72-4828-8BAC-A3887B8C10F5}
 	EndGlobalSection
 EndGlobal

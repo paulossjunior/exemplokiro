@@ -12,6 +12,16 @@ public class PersonRepository : IPersonRepository
 {
     private readonly ProjectBudgetDbContext _context;
 
+    // Compiled query for getting person by ID
+    private static readonly Func<ProjectBudgetDbContext, Guid, Task<Person?>> GetPersonByIdCompiled =
+        EF.CompileAsyncQuery((ProjectBudgetDbContext context, Guid id) =>
+            context.Persons.FirstOrDefault(p => p.Id == id));
+
+    // Compiled query for getting person by identification number
+    private static readonly Func<ProjectBudgetDbContext, string, Task<Person?>> GetPersonByIdentificationCompiled =
+        EF.CompileAsyncQuery((ProjectBudgetDbContext context, string identificationNumber) =>
+            context.Persons.FirstOrDefault(p => p.IdentificationNumber == identificationNumber));
+
     /// <summary>
     /// Initializes a new instance of the PersonRepository class.
     /// </summary>
@@ -24,15 +34,13 @@ public class PersonRepository : IPersonRepository
     /// <inheritdoc />
     public async Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Persons
-            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        return await GetPersonByIdCompiled(_context, id);
     }
 
     /// <inheritdoc />
     public async Task<Person?> GetByIdentificationNumberAsync(string identificationNumber, CancellationToken cancellationToken = default)
     {
-        return await _context.Persons
-            .FirstOrDefaultAsync(p => p.IdentificationNumber == identificationNumber, cancellationToken);
+        return await GetPersonByIdentificationCompiled(_context, identificationNumber);
     }
 
     /// <inheritdoc />

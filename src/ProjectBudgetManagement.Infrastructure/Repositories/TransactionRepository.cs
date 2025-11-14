@@ -13,6 +13,14 @@ public class TransactionRepository : ITransactionRepository
 {
     private readonly ProjectBudgetDbContext _context;
 
+    // Compiled query for getting transaction by ID with related entities
+    private static readonly Func<ProjectBudgetDbContext, Guid, Task<Transaction?>> GetTransactionByIdCompiled =
+        EF.CompileAsyncQuery((ProjectBudgetDbContext context, Guid id) =>
+            context.Transactions
+                .Include(t => t.BankAccount)
+                .Include(t => t.AccountingAccount)
+                .FirstOrDefault(t => t.Id == id));
+
     /// <summary>
     /// Initializes a new instance of the TransactionRepository class.
     /// </summary>
@@ -25,10 +33,7 @@ public class TransactionRepository : ITransactionRepository
     /// <inheritdoc />
     public async Task<Transaction?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Transactions
-            .Include(t => t.BankAccount)
-            .Include(t => t.AccountingAccount)
-            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+        return await GetTransactionByIdCompiled(_context, id);
     }
 
     /// <inheritdoc />
