@@ -8,9 +8,10 @@ COPY src/ProjectBudgetManagement.Api/ProjectBudgetManagement.Api.csproj ./src/Pr
 COPY src/ProjectBudgetManagement.Application/ProjectBudgetManagement.Application.csproj ./src/ProjectBudgetManagement.Application/
 COPY src/ProjectBudgetManagement.Domain/ProjectBudgetManagement.Domain.csproj ./src/ProjectBudgetManagement.Domain/
 COPY src/ProjectBudgetManagement.Infrastructure/ProjectBudgetManagement.Infrastructure.csproj ./src/ProjectBudgetManagement.Infrastructure/
+COPY tests/ProjectBudgetManagement.IntegrationTests/ProjectBudgetManagement.IntegrationTests.csproj ./tests/ProjectBudgetManagement.IntegrationTests/
 
 # Restore dependencies
-RUN dotnet restore
+RUN dotnet restore src/ProjectBudgetManagement.Api/ProjectBudgetManagement.Api.csproj
 
 # Copy all source code
 COPY . .
