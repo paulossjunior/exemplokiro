@@ -171,8 +171,10 @@ make clean
 
 ### Using Docker Compose Directly
 
+#### Development Mode (with hot reload)
+
 ```bash
-# Start services
+# Start all services (API + SQL Server + Front-End Dev Server)
 docker-compose up -d --build
 
 # Stop services
@@ -180,6 +182,29 @@ docker-compose down
 
 # View logs
 docker-compose logs -f
+
+# Access the application
+# Front-End: http://localhost:5173
+# API: http://localhost:5000
+# Swagger: http://localhost:5000/swagger
+```
+
+#### Production Mode
+
+```bash
+# Start all services with production configuration
+docker-compose -f docker-compose.prod.yml up -d --build
+
+# Stop services
+docker-compose -f docker-compose.prod.yml down
+
+# View logs
+docker-compose -f docker-compose.prod.yml logs -f
+
+# Access the application
+# Front-End: http://localhost
+# API: http://localhost:5000
+# Swagger: http://localhost:5000/swagger
 ```
 
 ### Local Development (without Docker)
@@ -193,7 +218,39 @@ docker-compose up -d sqlserver
 
 # Run the API locally
 dotnet run --project src/ProjectBudgetManagement.Api
+
+# In another terminal, run the front-end
+cd front-end
+npm install
+npm run dev
 ```
+
+### Front-End Only Development
+
+If you want to work on the front-end with the back-end running in Docker:
+
+```bash
+# Start back-end services only
+docker-compose up -d api sqlserver
+
+# Run front-end locally with hot reload
+cd front-end
+npm install
+npm run dev
+
+# Access at http://localhost:5173
+```
+
+### Docker Build Details
+
+For detailed information about the Docker setup, including:
+- Multi-stage build process
+- Build arguments and environment variables
+- Security features
+- Performance optimizations
+- Troubleshooting
+
+See: [front-end/DOCKER_BUILD.md](front-end/DOCKER_BUILD.md)
 
 ## API Documentation
 

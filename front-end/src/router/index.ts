@@ -12,6 +12,42 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/projects',
+    name: 'ProjectList',
+    component: () => import('@/views/ProjectListView.vue'),
+    meta: {
+      title: 'Projects - Project Budget Management',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/projects/create',
+    name: 'ProjectCreate',
+    component: () => import('@/views/ProjectCreateView.vue'),
+    meta: {
+      title: 'Create Project - Project Budget Management',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/projects/:id',
+    name: 'ProjectDetails',
+    component: () => import('@/views/ProjectDetailsView.vue'),
+    meta: {
+      title: 'Project Details - Project Budget Management',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/projects/:id/edit',
+    name: 'ProjectEdit',
+    component: () => import('@/views/ProjectEditView.vue'),
+    meta: {
+      title: 'Edit Project - Project Budget Management',
+      requiresAuth: true
+    }
+  },
+  {
     path: '/',
     redirect: '/dashboard/expenses'
   }

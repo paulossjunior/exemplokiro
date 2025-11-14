@@ -118,11 +118,13 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 // Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowFrontEnd", policy =>
     {
-        policy.AllowAnyOrigin()
+        var frontEndUrl = builder.Configuration["FrontEndUrl"] ?? "http://localhost:5173";
+        policy.WithOrigins(frontEndUrl)
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
@@ -218,7 +220,7 @@ app.Use(async (context, next) =>
 });
 
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors("AllowFrontEnd");
 
 // Authentication and authorization middleware
 // TODO: Configure JWT authentication when ready
